@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
 import SearchIcon from "./search.svg";
-import MovieCard from "./MovieCard";
+import MovieCard from "./components/MovieCard";
 
 const API_URL = `http://www.omdbapi.com/?apikey=${
   import.meta.env.VITE_OMDB_API_KEY
@@ -14,13 +14,16 @@ function App() {
   const searchMovies = async (title) => {
     const response = await fetch(`${API_URL}&s=${title}`);
     const data = await response.json();
-    console.log(data.Search);
     setMovies(data.Search);
   };
 
   useEffect(() => {
     searchMovies("Dune");
   }, []);
+
+  const handleKeyDown = (search, keycode) => {
+    keycode === 13 ? searchMovies(search) : null;
+  };
 
   return (
     <>
@@ -33,6 +36,7 @@ function App() {
             onChange={(e) => {
               searchMovies(setSearchTerm(e.target.value));
             }}
+            onKeyDown={(e) => handleKeyDown(e.target.value, e.keyCode)}
           />
           <img
             src={SearchIcon}
