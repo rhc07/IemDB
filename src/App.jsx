@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./App.css";
 import SearchIcon from "./search.svg";
 import MovieCard from "./components/MovieCard";
+import MovieModal from "./components/MovieModal";
 
 const API_URL = `http://www.omdbapi.com/?apikey=${
   import.meta.env.VITE_OMDB_API_KEY
@@ -10,6 +11,8 @@ const API_URL = `http://www.omdbapi.com/?apikey=${
 function App() {
   const [movies, setMovies] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [openModal, setOpenModal] = useState(false);
+  const [modalMovie, setModalMovie] = useState([]);
 
   const searchMovies = async (title) => {
     const response = await fetch(`${API_URL}&s=${title}`);
@@ -49,9 +52,22 @@ function App() {
           <>
             <div className="container" key="movie-list">
               {movies.map((movie) => (
-                <div key={movie.id}>
-                  <MovieCard movie={movie} />
-                </div>
+                <>
+                  <div key={movie.id}>
+                    <MovieCard
+                      movie={movie}
+                      onOpenModal={() => {
+                        setModalMovie(movie);
+                        setOpenModal(true);
+                      }}
+                    />
+                    <MovieModal
+                      open={openModal}
+                      movie={modalMovie}
+                      onClose={() => setOpenModal(false)}
+                    />
+                  </div>
+                </>
               ))}
             </div>
           </>

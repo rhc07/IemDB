@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 
-function MovieCard({ movie }) {
+function MovieCard({ movie, onOpenModal }) {
   return (
     <>
-      <div className="movie">
+      <div className="movie" onClick={onOpenModal}>
         <div>
           <p>{movie.Year}</p>
         </div>
