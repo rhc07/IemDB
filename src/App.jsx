@@ -20,8 +20,15 @@ function App() {
     setMovies(data.Search);
   };
 
+  const fetchMovieInfo = async (imdbID) => {
+    const response = await fetch(`${API_URL}&i=${imdbID}`);
+    const data = await response.json();
+    setModalMovie(data);
+    setOpenModal(true);
+  };
+
   useEffect(() => {
-    searchMovies("Dune");
+    searchMovies("Home");
   }, []);
 
   const handleKeyDown = (search, keycode) => {
@@ -57,14 +64,16 @@ function App() {
                     <MovieCard
                       movie={movie}
                       onOpenModal={() => {
-                        setModalMovie(movie);
-                        setOpenModal(true);
+                        fetchMovieInfo(movie.imdbID);
                       }}
                     />
                     <MovieModal
                       open={openModal}
                       movie={modalMovie}
-                      onClose={() => setOpenModal(false)}
+                      onClose={() => {
+                        setOpenModal(false);
+                        setModalMovie([]);
+                      }}
                     />
                   </div>
                 </>

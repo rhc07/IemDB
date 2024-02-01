@@ -196,6 +196,11 @@ h1 {
     position: fixed;
     width: 100%;
     height: 200%;
+    z-index: 3
+}
+
+.closeBtn {
+    color: #f9d3b4;
 }
 
 .modalContainer {
