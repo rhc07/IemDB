@@ -15,16 +15,26 @@ function App() {
   const [modalMovie, setModalMovie] = useState([]);
 
   const searchMovies = async (title) => {
-    const response = await fetch(`${API_URL}&s=${title}`);
-    const data = await response.json();
-    setMovies(data.Search);
+    try {
+      const response = await fetch(`${API_URL}&s=${title}`);
+      const data = await response.json();
+
+      const timeOutId = setTimeout(() => setMovies(data.Search), 500);
+      return () => clearTimeout(timeOutId);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const fetchMovieInfo = async (imdbID) => {
-    const response = await fetch(`${API_URL}&i=${imdbID}`);
-    const data = await response.json();
-    setModalMovie(data);
-    setOpenModal(true);
+    try {
+      const response = await fetch(`${API_URL}&i=${imdbID}`);
+      const data = await response.json();
+      setModalMovie(data);
+      setOpenModal(true);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   useEffect(() => {
